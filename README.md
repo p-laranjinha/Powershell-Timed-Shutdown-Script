@@ -1,5 +1,7 @@
 # Windows Shutdown Timer Powershell Script
 
+In order to run this script, only the [ShutdownTimer.exe](ShutdownTimer.exe) file is required.
+
 ## Turning .ps1 into .exe
 
 In order to turn the `ShutdownTimer.ps1` into `ShutdownTimer.exe`:
