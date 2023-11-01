@@ -1,4 +1,16 @@
 Add-Type -assembly System.Windows.Forms
+
+function ShowNotification($title, $text) {
+    $global:balloon = New-Object System.Windows.Forms.NotifyIcon
+    $path = (Get-Process -id $pid).Path
+    $balloon.Icon = [System.Drawing.Icon]::ExtractAssociatedIcon($path)
+    $balloon.BalloonTipIcon = [System.Windows.Forms.ToolTipIcon]::Info
+    $balloon.BalloonTipTitle = $title
+    $balloon.BalloonTipText = $text
+    $balloon.Visible = $true
+    $balloon.ShowBalloonTip(3000)
+}
+
 $form = New-Object System.Windows.Forms.Form
 $form.Text = 'Shutdown Timer'
 $form.Width = 370
@@ -31,34 +43,27 @@ $stopbutton.Location = New-Object System.Drawing.Point(250,10)
 $form.Controls.Add($stopbutton)
 
 $taskname = "Timed Shutdown"
-$global:balloon = New-Object System.Windows.Forms.NotifyIcon
-$path = (Get-Process -id $pid).Path
-$balloon.Icon = [System.Drawing.Icon]::ExtractAssociatedIcon($path)
-$balloon.BalloonTipIcon = [System.Windows.Forms.ToolTipIcon]::Info
-$balloon.BalloonTipTitle = $taskname
 
 $startbutton.Add_Click({
+    if (Get-ScheduledTask | Where-Object {$_.TaskName -like $taskname }) {
+        Unregister-ScheduledTask -TaskPath '\' -TaskName $taskname -Confirm:$false
+    }
+
     $time = (Get-Date).AddMinutes($numbox.Value)
     $taskAction = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument 'Stop-Computer -Force'
     $taskTrigger = New-ScheduledTaskTrigger -Once -At $time
     Register-ScheduledTask -TaskName $taskname -Action $taskAction -Trigger $taskTrigger -Description "Computer will shutdown on $time"
 
-    $balloon.BalloonTipText = "Computer will shutdown on $time."
-    $balloon.Visible = $true
-    $balloon.ShowBalloonTip(5000)
+    ShowNotification $taskname "Computer will shutdown on $time."
 })
 
 $stopbutton.Add_Click({
     if (Get-ScheduledTask | Where-Object {$_.TaskName -like $taskname }) {
         Unregister-ScheduledTask -TaskPath '\' -TaskName $taskname -Confirm:$false
         if (!(Get-ScheduledTask | Where-Object {$_.TaskName -like $taskname })) {
-            $balloon.BalloonTipText = "Timer has been cancelled."
-            $balloon.Visible = $true
-            $balloon.ShowBalloonTip(3000)
+            ShowNotification $taskname "Timer has been cancelled."
         } else {
-            $balloon.BalloonTipText = "Timer could not be cancelled."
-            $balloon.Visible = $true
-            $balloon.ShowBalloonTip(3000)
+            ShowNotification $taskname "ERROR: Timer could not be cancelled."
         }
     }
 })
