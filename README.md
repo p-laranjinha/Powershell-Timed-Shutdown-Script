@@ -1,6 +1,10 @@
-# Windows Shutdown Timer Powershell Script
+# <img src="https://raw.githubusercontent.com/p-laranjinha/Powershell-Timed-Shutdown-Script/master/icon.svg" width="32px" /> Windows Shutdown Timer Powershell Script
 
-In order to run this script, only the [ShutdownTimer.exe](ShutdownTimer.exe) file is required.
+This repository contains a small script/executable that allows the user to set a timer to shutdown their computer.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/p-laranjinha/Powershell-Timed-Shutdown-Script/master/screenshot.png" />
+</p>
 
 ## Turning .ps1 into .exe
 
