@@ -12,6 +12,7 @@ $label.AutoSize = $true
 $form.Controls.Add($label)
 
 $numbox = New-Object System.Windows.Forms.NumericUpDown
+$numbox.Value = 60
 $numbox.Maximum = [int]::MaxValue;
 $numbox.Width = 70
 $numbox.Location = New-Object System.Drawing.Point(70,10)
