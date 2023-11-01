@@ -25,13 +25,13 @@ function CancelTimer {
 
 $form = New-Object System.Windows.Forms.Form
 $form.Text = 'Shutdown Timer'
-$form.Width = 370
-$form.Height = 90
+$form.Width = 347
+$form.Height = 70
 $form.FormBorderStyle = 'FixedDialog';
 
 $label = New-Object System.Windows.Forms.Label
 $label.Text = "Minutes:"
-$label.Location = New-Object System.Drawing.Point(10, 12)
+$label.Location = New-Object System.Drawing.Point(10, 14)
 $label.AutoSize = $true
 $form.Controls.Add($label)
 
@@ -39,19 +39,19 @@ $numbox = New-Object System.Windows.Forms.NumericUpDown
 $numbox.Value = 60
 $numbox.Maximum = [int]::MaxValue;
 $numbox.Width = 70
-$numbox.Location = New-Object System.Drawing.Point(70, 10)
+$numbox.Location = New-Object System.Drawing.Point(60, 12)
 $form.Controls.Add($numbox)
 
 $startbutton = New-Object System.Windows.Forms.Button
 $startbutton.Text = "Start Timer"
 $startbutton.Width = 90
-$startbutton.Location = New-Object System.Drawing.Point(150, 10)
+$startbutton.Location = New-Object System.Drawing.Point(140, 10)
 $form.Controls.Add($startbutton)
 
 $stopbutton = New-Object System.Windows.Forms.Button
 $stopbutton.Text = "Stop Timer"
 $stopbutton.Width = 90
-$stopbutton.Location = New-Object System.Drawing.Point(250, 10)
+$stopbutton.Location = New-Object System.Drawing.Point(240, 10)
 $form.Controls.Add($stopbutton)
 
 $taskname = "Timed Shutdown"
@@ -71,4 +71,4 @@ $stopbutton.Add_Click({
         CancelTimer
     })
 
-$form.ShowDialog()
+$form.ShowDialog() | Out-Null

@@ -1,18 +1,14 @@
 # Windows Shutdown Timer Powershell Script
 
-In order to be able to run this script you'll have to:
-- Right click the **Shutdown Timer** shortcut file
-- Click on properties
-- Replace the **filepath** text inside the " " in the **Target:** field for the path to the **shutdown.ps1** script
+## Turning .ps1 into .exe
 
-You may find the script path by right clicking the file and choosing **Copy as path**.
+In order to turn the `ShutdownTimer.ps1` into `ShutdownTimer.exe`:
+- Make sure [PS2EXE](https://github.com/MScholtes/PS2EXE) is installed via `powershell.exe -command "Install-Module ps2exe"` as an Administrator
+- Make sure execution policy allows PS2EXE to be run via `powershell -command "Set-ExecutionPolicy -ExecutionPolicy RemoteSigned"` as an Administrator
+- Run `powershell.exe -command "Invoke-ps2exe .\ShutdownTimer.ps1 .\ShutdownTimer.exe -noConsole -iconFile .\icon.ico"`
 
-In the end the contents of the **Target:** field will go from
+## Turning .svg into .ico
 
-`C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -WindowStyle hidden -ExecutionPolicy bypass -File "filepath"`
-
-to something like
-
-`C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -WindowStyle hidden -ExecutionPolicy bypass -File "C:\Users\abc\Shutdown script\shutdown.ps1"`.
-
-Afterwards you'll be able to run the script by opening the shortcut.
+In order to turn the `icon.svg` into `icon.ico`:
+- Make sure [ImageMagick](https://www.imagemagick.org/script/index.php) is installed
+- Run `magick convert -background none icon.svg -define icon:auto-resize icon.ico`
